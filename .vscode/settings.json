@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "C:\\Users\\seamfix\\.virtualenvs\\tx_api-E2eOx2nf\\Scripts\\python.exe",
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask"]
+}
