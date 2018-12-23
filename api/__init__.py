@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import config
+db = SQLAlchemy()
 from flask_restplus import Api
 from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify, abort
@@ -16,18 +16,20 @@ authorizations = {
     }
 }
 
-db = SQLAlchemy()
+
 api = Api()
 
 def create_api(config_name):
     app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/testdb'
     #CORS(app)
+    from config import config
     try:
         init_config = config[config_name]
     except KeyError:
         raise
     except Exception:
-        # For unforseen exceptions
+        # For unforseen exceptionsayobussy8655
         raise
         exit()
 
@@ -41,37 +43,19 @@ def create_api(config_name):
     api.add_namespace(play_api, path='/play')
 
     api.init_app(app)
-    
-    @play_api.route('/bucketlists/', methods=['POST', 'GET'])
-    def bucketlists():
-        if request.method == "POST":
-            name = str(request.data.get('name', ''))
-            if name:
-                bucketlist = Bucketlist(name=name)
-                bucketlist.save()
-                response = jsonify({
-                    'id': bucketlist.id,
-                    'name': bucketlist.name,
-                    'date_created': bucketlist.date_created,
-                    'date_modified': bucketlist.date_modified
-                })
-                response.status_code = 201
-                return response
-        else:
-            # GET
-            bucketlists = Bucketlist.get_all()
-            results = []
+        
+    incomes = [
+    { 'description': 'salary', 'amount': 5000 }
+    ]
 
-            for bucketlist in bucketlists:
-                obj = {
-                    'id': bucketlist.id,
-                    'name': bucketlist.name,
-                    'date_created': bucketlist.date_created,
-                    'date_modified': bucketlist.date_modified
-                }
-                results.append(obj)
-            response = jsonify(results)
-            response.status_code = 200
-            return response
 
+    @app.route('/incomes')
+    def get_incomes():
+        return jsonify(incomes)
+
+
+    @app.route('/incomes', methods=['POST'])
+    def add_income():
+        incomes.append(request.get_json())
+        return '', 204
     return app

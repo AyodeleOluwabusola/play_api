@@ -1,30 +1,59 @@
 # from flask_restplus import Namespace, Resource, fields
 # from flask import request
+# from api import api
+# from schema import NewPersonSchema
 
 # play_api = Namespace('transaction', description='Api for dealing with every transaction happening in gtg')
 
 
-# @play_api.route('/play')
-# class PeopleData(Resource):
+# people = play_api.model('people', {
+#     'id': fields.String(required=True, description='The name of the facility'),
+#     'name': fields.String(description='The facility address'),
+#     'time': fields.String(description='time transaction occured')
+# })
 
-#     def get(self):
-#         """
-#             HTTP method to create a new buyer
-#             @param: buyer_id: ID of the buyer
-#             @returns: response and status code
-#         """
-#         data = request.values.to_dict() or ''
-#         payload = api.payload or data
-#         schema = NewBuyerSchema(strict=True)
-#         response = {}
-        
+# incomes = [
+#   { 'description': 'salary', 'amount': 5000 }
+# ]
+
+# @account_api.route('/credit/')
+# class People(Resource):
+# 	"""
+# 		Api to credit a user's account
+# 	"""
+
+# 	@account_api.expect(credit)  # For swagger documentation
+# 	def post(self):
+# 		"""
+# 			HTTP method for making account credits
+# 			@param: request payload
+# 			@returns: response and status code
+# 		"""
+# 		schema = NewPersonSchema(strict=True)
+# 		data = request.values.to_dict()
+# 		payload = api.payload or data
+# 		print('Payload', payload)
+
+# 		response = {}
+
 #         try:
-#             new_payload = schema.load(payload).data
-#         except (Exception, ValidationError) as e :
-#             logger.exception(e)
-#             response = {}
-#             response['success'] = False
-#             response['errors'] = "You need to pass in a payload"
-#             return response, 400
+# 			people_payload = schema.load(payload).data._asdict()
+# 			print('People payload',people_payload)
+# 		except Exception as e:
+# 			print('payload',payload)
+# 			# logger.exception(e.messages)
+# 			response['success'] = False
+# 			response['message'] = e.messages
+# 			return response, 400
+            
 
-        
+# # @play_api.route('/incomes')
+# # class Activate(Resource)
+# #     def get(self):
+# #         return jsonify(incomes)
+
+
+# # @play_api.route('/incomes', methods=['POST'])
+# # def add_income():
+# #   incomes.append(request.get_json())
+# #   return '', 204

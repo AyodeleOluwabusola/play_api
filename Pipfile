@@ -11,6 +11,12 @@ flask-restplus = "*"
 flask-sqlalchemy = "*"
 autoenv = "*"
 pylint-flask = "*"
+marshmallow = "*"
+"psycopg2" = "*"
+gunicorn = "*"
+eventlet = "*"
+flask-migrate = "*"
+"psycopg2-binary" = "*"
 
 [requires]
 python_version = "3.6"
