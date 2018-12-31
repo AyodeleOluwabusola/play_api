@@ -17,6 +17,7 @@ gunicorn = "*"
 eventlet = "*"
 flask-migrate = "*"
 "psycopg2-binary" = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.6"
