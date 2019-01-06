@@ -1,11 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import glob
 db = SQLAlchemy()
 from flask_restplus import Api
 from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify, abort
+import os
 from api.models import Bucketlist
 from flask_cors import CORS
+from api.controllers import MyResourceClass
+# from images.image1 import image1
 
 play_api = Namespace('transaction', description='Api for dealing with every transaction happening in gtg')
 
@@ -22,7 +26,16 @@ api = Api()
 
 def create_api(config_name):
     app = Flask(__name__)
+    # IMAGE_FOLDER = '/images/'
+    #  app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
+    # PATH_TO_TEST_IMAGES_DIR = 'images'
+    # TEST_IMAGE_PATHS = []
+
+    # for ext in ('*.png', '*.jpeg'):
+    #   TEST_IMAGE_PATHS.extend(glob(os.path.join(PATH_TO_TEST_IMAGES_DIR, images1.jpeg)))
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/testdb'
+    # app.config[]
     CORS(app)
     from config import config
     try:
@@ -45,7 +58,7 @@ def create_api(config_name):
 
     api.init_app(app)
         
-    incomes = [
+    persons = [
         {
     "id": 1,
     "name": "Leanne Graham",
@@ -276,15 +289,23 @@ def create_api(config_name):
       "bs": "target end-to-end models"
     }
   }
+  
     ]
 
 
-    @app.route('/incomes/')
+    @app.route('/persons/', methods = ['GET'])
     def get_incomes():
-        return jsonify(incomes)
+        return jsonify(persons)
 
-    @app.route('/incomes', methods=['POST'])
+    @app.route('/persons/<int:id>', methods = ['GET'])
+    def get_income(id):
+        # return 'My id is {}'.format(id)
+        return jsonify(persons[id-1])
+
+    api.add_resource(MyResourceClass, '/persons/', '/persons/<int:id>', endpoint='id')
+
+    @app.route('/persons', methods=['POST'])
     def add_income():
-        incomes.append(request.get_json())
+        persons.append(request.get_json())
         return '', 204
     return app

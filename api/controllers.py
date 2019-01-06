@@ -1,5 +1,5 @@
-# from flask_restplus import Namespace, Resource, fields
-# from flask import request
+from flask_restplus import Namespace, Resource, fields
+from flask import request
 # from api import api
 # from schema import NewPersonSchema
 
@@ -47,10 +47,26 @@
 # 			return response, 400
             
 
-# # @play_api.route('/incomes')
-# # class Activate(Resource)
-# #     def get(self):
-# #         return jsonify(incomes)
+# @play_api.route('/incomes')
+# class Activate(Resource)
+#     def get(self):
+#         return jsonify(incomes)
+
+class MyResourceClass(Resource):
+
+    def get(self, id=None):
+        if not id:
+    # item ID was not provided over get method
+            return 404
+    # Do stuff
+        return 200
+
+    # def post(self):
+    ## Should accept JSON
+    ## Does some stuff based on request
+    def delete(self):
+    ## Deletes the item information
+        return 200
 
 
 # # @play_api.route('/incomes', methods=['POST'])
