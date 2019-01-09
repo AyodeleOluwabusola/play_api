@@ -18,6 +18,7 @@ eventlet = "*"
 flask-migrate = "*"
 "psycopg2-binary" = "*"
 flask-cors = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"
